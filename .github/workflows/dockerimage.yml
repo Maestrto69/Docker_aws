@@ -1,19 +1,20 @@
-name: Docker Image CI
+name: CI-CD
 env:
-  AWS_REGION_NAME: "us-east-2"
-  
+  EB_PACAGE_S3_BACKET_NAME: "maestrto69"
+  EB_APLICATION_NAME      : "My-OMV"
+  EB_ENVIRONMENT_NAME     : "MyOmv-env"
+  DEPLOY_PACAGE_NAME      : "maestrto69_app_${{ github.sha}}.zip"
+  AWS_REGION_NAME         : "us-east-2"
 
-on: [push]
+
+on:
+  push:
+    branches:
+      - master
 
 jobs:
- My Ci test:
-    runs-on: ubuntu-latest
-
+  mi-ci-part:
+    runs-on: [ubuntu-18.04]
     steps:
-    - name: Copy repo  
-      uses: actions/checkout@v1
-        
-      
-
-        
-       
+      - name: Git clone my repo
+        uses: actions/checkout@v1
