@@ -1,0 +1,32 @@
+name: Docker Image CI
+env:
+  AWS_REGION_NAME: "us-east-2"
+  
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+        
+      
+    - name: Configure my AWS credentials
+    - uses: aws-actions/configure-aws-credentials@v1
+      with:
+          aws-access-key-id     : ${{ secrets.DOCKER_USERNAME }}
+          aws-secret-access-key : ${{ secrets.DOCKER_PASSWORD }}
+          aws-region        : ${{ env.AWS_REGION_NAME }
+        
+    - name: Build and push 
+      run: |
+        docker build -t app2 .
+        aws ecr get-login --no-include-email --region us-east-2
+        docker tag app2:latest 951264400542.dkr.ecr.us-east-2.amazonaws.com/app2:latest
+        docker push 951264400542.dkr.ecr.us-east-2.amazonaws.com/app2:latest
+        
+       
