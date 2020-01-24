@@ -5,6 +5,7 @@ env:
   EB_ENVIRONMENT_NAME     : "MyOmv-env"
   DEPLOY_PACAGE_NAME      : "maestrto69_app_${{ github.sha}}.zip"
   AWS_REGION_NAME         : "us-east-2"
+  
 
 
 on:
@@ -29,6 +30,6 @@ jobs:
       - name: Build and push
         run: |
           docker build -t app2 .
-          aws ecr get-login --no-include-email --region us-east-2
+          $(aws ecr get-login --no-include-email --region us-east-2)
           docker tag app2:latest 951264400542.dkr.ecr.us-east-2.amazonaws.com/app2:latest
           docker push 951264400542.dkr.ecr.us-east-2.amazonaws.com/app2:latest
