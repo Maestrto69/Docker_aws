@@ -1,9 +1,25 @@
-FROM ubuntu:18.04
-RUN apt-get -y update
-RUN apt-get -y install apache2
+version: '3'
 
-RUN echo 'Docker App1. <b>v1.0</b1>' > /var/www/html/index.html
+services:
 
-
-CMD ["/usr/sbin/apache2ctl", "-D","FOREGROUND"]
-EXPOSE 80
+  nginx:
+    image: nginx:latest
+    container_name: omv_nginx
+    restart: always
+    networks:
+      omv_net:
+        ipv4_address: 172.16.238.10
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    expose:
+      - 80
+      - 3000
+    ports:
+      - 80:80
+      - 3000:3000
+    links:
+      - core
+      - face-detection
+      - analytics-worker
+      - auth-server
+      - socket-io
